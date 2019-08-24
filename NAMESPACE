@@ -1,0 +1,7 @@
+exportPattern(BTSBM,gen.A.from.P,HCD)
+import(Matrix,RSpectra,data.tree,data.table)
+import(methods,stringr)
+importFrom("dendextend","is.dendrogram","nnodes")
+importFrom("randnet","ECV.Rank","SBM.estimate")
+importFrom("irlba","irlba")
+importFrom("stats", "dendrapply", "kmeans", "runif")
