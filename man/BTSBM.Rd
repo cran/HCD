@@ -46,12 +46,12 @@ the number of networks to generate from the same model
   \item{node.sim.mat}{the binary string similarity matrix between nodes}
   }
 \references{
-Tianxi Li, Lihua Lei, Sharmodeep Bhattacharyya, Purnamrita Sarkar, Peter Bickel, and Elizaveta Levina.  Hierarchical community detection by recursive partitioning. arXiv:1810.01509
+Li, T., Lei, L., Bhattacharyya, S., Van den Berge, K., Sarkar, P., Bickel, P.J. and Levina, E., 2022. Hierarchical community detection by recursive partitioning. Journal of the American Statistical Association, 117(538), pp.951-968.
 }
 \author{
   Tianxi Li, Lihua Lei, Sharmodeep Bhattacharyya, Purnamrita Sarkar, Peter Bickel, and Elizaveta Levina.\cr
 
-Maintainer: Tianxi Li <tianxili@virginia.edu>
+Maintainer: Tianxi Li <tianxili@umn.edu>
 
 }
 \examples{

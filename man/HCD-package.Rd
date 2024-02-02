@@ -14,8 +14,8 @@ stochastic block model.
 \tabular{ll}{
 Package: \tab HCD\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2019-08-02\cr
+Version: \tab 1.0\cr
+Date: \tab 2024-01-28\cr
 License: \tab GPL (>= 2)\cr
 }
 
@@ -23,11 +23,9 @@ License: \tab GPL (>= 2)\cr
 \author{
   Tianxi Li, Lihua Lei, Sharmodeep Bhattacharyya, Purnamrita Sarkar, Peter Bickel, and Elizaveta Levina.\cr
 
-Maintainer: Tianxi Li <tianxili@virginia.edu>
+Maintainer: Tianxi Li <tianxili@umn.edu>
 }
 \references{
-Tianxi Li, Lihua Lei, Sharmodeep Bhattacharyya, Purnamrita Sarkar, Peter
-Bickel, and Elizaveta Levina.  Hierarchical community detection by
-recursive partitioning. arXiv:1810.01509
+Li, T., Lei, L., Bhattacharyya, S., Van den Berge, K., Sarkar, P., Bickel, P.J. and Levina, E., 2022. Hierarchical community detection by recursive partitioning. Journal of the American Statistical Association, 117(538), pp.951-968.
 }
 \keyword{ package }

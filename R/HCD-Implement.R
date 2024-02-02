@@ -224,7 +224,7 @@ HCD <- function(A,method="SS", stopping="NB",reg=FALSE,n.min=25,D=NULL,notree=TR
     stop("stopping can only by one of 'NB','ECV' and 'Fix'")
   }
   message("Begin clustering....")
-  clusters <- break.cl.sp(f=A,method=method, xi.loc.labels=xi.loc.labels, ncl=ncl, cl.labels=1:n,BH=stopping,reg=reg,n.min=n.min,D=D)
+  clusters <- break.cl.sp(f=A,method=method, xi.loc.labels=xi.loc.labels, ncl=ncl, cl.labels=1:n,BH=stopping,reg=reg,n.min=n.min,D=D,Laplace=FALSE)
   ncl <- clusters$ncl
   xi.loc.labels <- clusters$xi.loc.labels
   labels = rep(0, n)
@@ -281,7 +281,7 @@ HCD <- function(A,method="SS", stopping="NB",reg=FALSE,n.min=25,D=NULL,notree=TR
 
 ## cl.labels is the current node index involved in the function call - this is by sign splitting
 ## use D = maximum level of splitting if want to use HCD-Sign by fixed D with BH is other than "NB" or "ECV"
-break.cl.sp = function(f, method="SS",xi.loc.labels, ncl, cl.labels,BH="NB",reg=FALSE,n.min=25,D=NULL) {
+break.cl.sp = function(f, method="SS",xi.loc.labels, ncl, cl.labels,BH="NB",reg=FALSE,n.min=25,D=NULL,Laplace=FALSE) {
   nisol = which(rowSums(f) > 0)
   isol = which(rowSums(f) == 0)
   cl.labels.full <- cl.labels
@@ -318,9 +318,19 @@ break.cl.sp = function(f, method="SS",xi.loc.labels, ncl, cl.labels,BH="NB",reg=
   if(split.flag) {
     if(reg){
       f.reg <- f + 0.1*mean(all.deg)/nrow(f)
-      eig.nf = irlba(f.reg, nu = 2, nv = 2)
+      if(Laplace){
+        l.reg <- f.reg - diag(rowSums(f.reg))
+        eig.nf = irlba(l.reg, nu = 2, nv = 2)
+      }else{
+        eig.nf = irlba(f.reg, nu = 2, nv = 2)
+      }
     }else{
-      eig.nf = irlba(f, nu = 2, nv = 2)
+      if(Laplace){
+        l.mat <- f - diag(rowSums(f))
+        eig.nf = irlba(l.mat, nu = 2, nv = 2)
+      }else{
+        eig.nf = irlba(f, nu = 2, nv = 2)
+      }
     }
     if(method=="SS"){
     clustering <- rep(0,length(eig.nf$v[,2]))
@@ -410,3 +420,46 @@ break.cl.sp = function(f, method="SS",xi.loc.labels, ncl, cl.labels,BH="NB",reg=
   return(list(xi.loc.labels = xi.loc.labels, ncl = ncl,tree.path=tree.path))
 }
 
+
+## plot function for HCD output
+## hcd: the output from the HCD function
+## mode: plotting community hierarchy or node hierarchy. The default value is "community", 
+##       indicating plotting hierarchy between communities
+## labels: the labels of the each leaf of the tree. By default, the community/node index is used.
+##         The user can also specify another sequence of characters
+## main: the title of the plot
+## label.cex: the size of the leaf label in the plot. When plotting node hierarchy, typically there are
+##            too many nodes so the labels will seriously overlap. Use a smaller size (say, label.cex=0.3)
+##            may help.
+
+HCDplot <- function(hcd,mode="community",labels=NULL,main=NULL,label.cex=1){
+  # Save the current par settings
+  oldPar <- par(no.readonly = TRUE)
+  
+  # Ensure that the original par settings are restored on exit
+  on.exit(par(oldPar))
+  
+  if(mode=="community"){
+    S <- hcd$comm.bin.sim.mat
+    if(nrow(S)<=2){
+      message("Too few clusters to plot!")
+    }else{
+      dis <- max(S)+1-S
+      hc <- hclust(d=as.dist(dis),method="complete")
+      par(cex=label.cex)
+      plot(hc,main=main,yaxt="n",ann=FALSE,labels=labels)
+      par(cex=1)
+      title(main=main)
+    }
+  }else{
+    S <- hcd$node.bin.sim.mat
+    dis <- max(S)+1-S
+    diag(dis) <- 0
+    hc <- hclust(d=as.dist(dis),method="complete")
+    par(cex=label.cex)
+    plot(hc,main=main,yaxt="n",ann=FALSE,labels=labels)
+    par(cex=1)
+    title(main=main)
+  }
+  
+}

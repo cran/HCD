@@ -67,14 +67,12 @@ BTSBM.
     each community along the tree}
 }
 \references{
-Tianxi Li, Lihua Lei, Sharmodeep Bhattacharyya, Purnamrita Sarkar, Peter
-Bickel, and Elizaveta Levina.  Hierarchical community detection by
-recursive partitioning. arXiv:1810.01509
+Li, T., Lei, L., Bhattacharyya, S., Van den Berge, K., Sarkar, P., Bickel, P.J. and Levina, E., 2022. Hierarchical community detection by recursive partitioning. Journal of the American Statistical Association, 117(538), pp.951-968.
 }
 \author{
   Tianxi Li, Lihua Lei, Sharmodeep Bhattacharyya, Purnamrita Sarkar, Peter Bickel, and Elizaveta Levina.\cr
 
-Maintainer: Tianxi Li <tianxili@virginia.edu>
+Maintainer: Tianxi Li <tianxili@umn.edu>
 }
 \examples{
 dt <- BTSBM(n=1600,d=4,a.seq=0.2^seq(0,4),lambda=50)
